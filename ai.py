@@ -4,32 +4,55 @@ import others
 
 class Enemy():
     def __init__(self,player_buttons,enemy_buttons,player_taken):
+        #zbiór z polami na którch przeciwnik może umieścić okręt
         self.possible_tiles = set()
+        #zbiór z polami na których okręty zostały umieszczone
         self.taken_tiles = set()
+        #zbiór pól niedozwolonych do wyboru przy umieszczaniu okrętu
         self.banned_tiles = set()
+        #siatka z polami gracza
         self.button_grid_player = player_buttons
+        #siatka z polami przeciwnika
         self.button_grid_enemy = enemy_buttons
+        #pola z okrętami rozmieszczonymi przez gracza
         self.player_taken_tiles = player_taken
+        #numer kolumny i wiersza pola, który wylosował komputer
         self_middle_point_x = 0
         self_middle_point_y = 0
-        self.number_of_ships_list = [4,3,2,1]
+        #ilosc statkow
+        self.number_of_ships_list = [i for i in range(4,0,-1)]
+        #lista z polami w które komputer będzie strzelał w celu określenia orientacji okrętu gracza
         self.where_to_attack = []
+        #indeksy pól z listy where_to_attack
         self.indexes = []
+        #zbiór pól na których nie mógł zostać umieszczony okręt gracza
         self.unlikely_tiles = set()
+        #ilość staków gracza zniczonych przez komputer
         self.destroyed = 0
+        #iterator
         self.it = 0
     
     def update_taken_tiles(self):
+        """
+        pokazuje rozmieszczenie statków przeciwnika
+        """
         for button in self.taken_tiles:
             button.configure(bg = 'yellow')
             
     def update_banned_tiles(self,x,y):
+        """
+        uaktualnia zbiór niedozwolonych pól
+        x,y - koordynaty pola
+        """
         for i in range(x-1,x+2):
             for j in range(y-1,y+2):
                 if i >=0 and j >= 0 and i <= 9 and j <= 9:
                     self.banned_tiles.add(self.button_grid_enemy[i][j])
                
     def enemy_ship_placement(self):
+        """
+        ustawienie statków przez przeciwnika
+        """
         it = 0
         while(it < 10):
             x = others.get_random(9)
@@ -56,11 +79,16 @@ class Enemy():
                     others.clear_dictionary(self.possible_tiles)
                     #self.update_taken_tiles()
                     it += 1
-        self.number_of_ships_list = [4,3,2,1]
+        self.number_of_ships_list = [i for i in range(4,0,-1)]
     
     def delete_corners(self,x,y):
+        """
+        dodaje do unlikely_tiles pola sąsiadujące rogami z trafionym okrętem gracza
+        x,y koordynaty trafionego okrętu
+        """
         self.destroyed += 1
         self.button_grid_player[x][y].configure(bg="red")
+        #sprawdzenie czy sąsiad istnieje
         if x-1 >= 0 and y-1 >= 0:
             self.unlikely_tiles.add(self.button_grid_player[x-1][y-1])
             #self.button_grid_player[x-1][y-1].configure(bg = "yellow")
@@ -75,7 +103,12 @@ class Enemy():
             #self.button_grid_player[x+1][y-1].configure(bg = "yellow")
             
     def add_next_tile(self,x,y):
+        """
+        dodaje do where_to_attack pola sąsiadujące bokami z trafionym okrętem gracza
+        x,y koordynaty trafionego okrętu
+        """
         self.it += 1
+        #sprawdzenie czy sąsiad istnieje
         if x-1 >= 0:
             self.where_to_attack.append(self.button_grid_player[x-1][y])
             self.indexes.append((x-1,y))
@@ -92,13 +125,11 @@ class Enemy():
             self.where_to_attack.append(self.button_grid_player[x][y+1])
             #self.button_grid_player[x][y+1].configure(bg = "black")
             self.indexes.append((x,y+1))
-            
-    def get_ship_number(self):
-        for i in range(3,-1,-1):
-            if self.number_of_ships_list[i] != 0:
-                return i
-    
+             
     def enemy_attack(self):
+        """
+        atakowanie oktętów gracza
+        """
         if self.destroyed < 20:
             if len(self.where_to_attack) <= 0:
                 for i in range(1,5):
