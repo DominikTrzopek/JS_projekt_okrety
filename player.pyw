@@ -189,7 +189,7 @@ class Ships_app():
                         self.number_of_ships_list[max(abs(diff_x),abs(diff_y))] -= 1
                     else:
                         return_val = others.comm("Niepoprawne rozmieszczenie okrętów",self.tests)
-                    others.clear_dictionary(self.possible_tiles)
+                    others.clear_set(self.possible_tiles)
                     self.update_taken_tiles()
                     self.click_count -= 1
                     action_done = True
@@ -197,7 +197,7 @@ class Ships_app():
                     self.click_x = x
                     self.click_y = y
                     self.click_count += 1
-                    self.possible_tiles = others.make_dictionary(x,y,self.button_grid_player,self.number_of_ships_list,self.banned_tiles)
+                    self.possible_tiles = others.make_set(x,y,self.button_grid_player,self.number_of_ships_list,self.banned_tiles)
                 self.update_labels()
             else:
                 return_val = others.comm("Niepoprawne rozmieszczenie okrętów",self.tests)
