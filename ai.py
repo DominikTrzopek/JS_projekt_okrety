@@ -58,7 +58,7 @@ class Enemy():
             x = others.get_random(9)
             y = others.get_random(9)
             if self.button_grid_enemy[x][y] not in self.banned_tiles:
-                self.possible_tiles = others.make_dictionary(x,y,self.button_grid_enemy,self.number_of_ships_list,self.banned_tiles,False)
+                self.possible_tiles = others.make_set(x,y,self.button_grid_enemy,self.number_of_ships_list,self.banned_tiles,False)
                 x2 = others.get_random(9)
                 y2 = others.get_random(9)
                 if self.button_grid_enemy[x2][y2] in self.possible_tiles:
@@ -76,7 +76,7 @@ class Enemy():
                     elif diff_x == 0 and diff_y == 0:
                         self.update_banned_tiles(x,y)
                     self.number_of_ships_list[max(abs(diff_x),abs(diff_y))] -= 1
-                    others.clear_dictionary(self.possible_tiles)
+                    others.clear_set(self.possible_tiles)
                     #self.update_taken_tiles()
                     it += 1
         self.number_of_ships_list = [i for i in range(4,0,-1)]
