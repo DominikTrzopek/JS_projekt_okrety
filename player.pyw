@@ -63,7 +63,7 @@ class Ships_app():
         self.reset_button.place(x = self.cell_size * 12, y = self.cell_size * 19)
 
         #ilosc statkow
-        self.number_of_ships_list = [4,3,2,1]
+        self.number_of_ships_list = [i for i in range(4,0,-1)]
         self.label_4_mast = self.number_of_ships("czteromasztowce",1,17)
         self.label_3_mast = self.number_of_ships("trójmasztowce",2,16)
         self.label_2_mast = self.number_of_ships("dwumasztowce",3,15)
