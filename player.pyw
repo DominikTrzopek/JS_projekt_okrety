@@ -6,20 +6,34 @@ import ai
 
 class Ships_app():
     def __init__(self,cell_size,root, tests = False):
+        #ilosc wierszy z których składa się siatka okna gry
         self.row_number = 23
+        #ilość kolumn
         self.column_number = 18
+        #wielkośc pojedyńczej komórki
         self.cell_size = cell_size
+        #zmienna przechowująca informację o tym czy gracz wybiera miejsce dla okrętu (click_count=0) czy jego orientację i typ (click_count=1)
         self.click_count = 0
+        #numer kolumny i wiersza przycisku, który wcisnął gracz
         self.click_x = 0
         self.click_y = 0
+        #zbiór z polami na którch gracz może umieścić okręt (gdy click_count=1)
         self.possible_tiles = set()
+        #zbiór z polami na których okręty zostały umieszczone
         self.taken_tiles = set()
+        #zbiór pól niedozwolonych do wyboru przy umieszczaniu okrętu
         self.banned_tiles = set()
+        #zbiór pól przeciwnika, w które gracz oddał strzał
         self.fired_at = set()
+        #zmienna informująca czy gracz jest w fazie rozmieszczania okrętów, czy atakowania okrętów przeciwnika
         self.game_started = False
+        #zmienna decydująca czy grę rozpoczyna gracz czy komputer
         self.who_start = others.get_random(9)
+        #ilość statków przeciwnika zniszzconych przez gracza
         self.destroyed = 0
+        #pominięcie tury przeciwnika (gdy gracz oddał strzał w niedozwolone miejsce)
         self.skip = False
+        #wyświetlanie komunikatów o błędach
         self.tests = tests
 
         #tworzenie okna
@@ -58,9 +72,18 @@ class Ships_app():
         self.enemy = None
     
     def close_window(self):
+        """
+        zamknięcie okna gry
+        """
         self.game_window.destroy()
     
     def button_array(self,offset,function):
+        """
+        utworzenie siatki przycisków
+        offset - numer wiersza od którego tworzona jest siatka przycisków
+        function - funkcjonalność przycisku w siatce
+        zwraca utworzoną siatkę przycisków
+        """
         buttons = [[0 for x in range(10)] for x in range(10)]
         for x in range(10):
             for y in range(10):
@@ -69,38 +92,68 @@ class Ships_app():
         return buttons
 
     def numerate_array(self):
+        """
+        numeracja wierszy (0-9) i kolumn (0-9) siatki przycisków
+        """
+        #wielkość i motyw czcionki
         myfont = ("Arial",int(self.cell_size/2))
+        #petla od 0 do 21 (wielkość siatki przycisków to 10, numerujemy dwie siatki między którymi jest dodatkowy odstęp)
+        #x - numer wiersza, y - numer kolumny
         for x in range(22):
             for y in range(11):
+                #(x == 0 or y == 0) - etykiety umieszczone są w wierszu 0 i kolumnie 0
+                #x != y - usunięcie etykiety z górnego prawego rogu siatki
+                #x != 11 - odstęp miedzy siatkami przycisków
                 if (x == 0 or y == 0) and x != y and x != 11:
+                    #numeracja koloumn i wierszy pierwszej siatki
                     if x < 11:
                         label = Label(self.game_window, text = str(x - 1 + y))
+                    #numeracja wierszy drugiej siatki
                     else:
                         label = Label(self.game_window, text = str(x - 12 + y))
+                    #wybór miejsca w którym należy umieścić etykiete
                     label.place(x = y*self.cell_size, y = x * self.cell_size)
                     label.config(font = myfont)
+        #numeracja kolumn drugiej siatki    
         for y in range(10):
             label = Label(self.game_window, text = str(y))
             label.place(x = y*self.cell_size + self.cell_size, y = x * self.cell_size + self.cell_size)
             label.config(font = myfont)
 
     def number_of_ships(self,ship_name,ships_left,offset):
+        """
+        utworzenie etykiety z nazwą i ilością okrętów
+        ship_name - nazwa typu okrętu
+        ships_left - ilość okrętów danego typu
+        offset - numer wiersza, w którym należy umieścić etykiete
+        zwraca utworzoną etykietę
+        """
         label = Label(self.game_window, text = ship_name + " " +str(ships_left))
         label.place(x = self.cell_size * 12, y = self.cell_size * offset)
         label.config(font = self.game_font)
         return label
     
     def update_labels(self):
+        """
+        uaktualnia ilość okrętów każdego typu wyświetlaną przez odpowiednie etykiety
+        """
         self.label_4_mast.configure(text = "czteromasztowce" + " " + str(self.number_of_ships_list[3]))
         self.label_3_mast.configure(text = "trójmasztowce" + " " + str(self.number_of_ships_list[2]))
         self.label_2_mast.configure(text = "dwumasztowce" + " " + str(self.number_of_ships_list[1]))
         self.label_1_mast.configure(text = "jednomasztowce" + " " + str(self.number_of_ships_list[0]))
         
     def update_taken_tiles(self):
+        """
+        zmienia kolor pól, na których gracz umieścił oręty na zielony
+        """
         for button in self.taken_tiles:
             button.configure(bg = 'green')
     
     def update_banned_tiles(self,x,y):
+        """
+        auktualnia zbiór z zabronionymi polami
+        x, y - koordynaty przycisku, który należy dodać do zbioru
+        """
         for i in range(x-1,x+2):
             for j in range(y-1,y+2):
                 if i >=0 and j >= 0 and i <= 9 and j <= 9:
@@ -108,6 +161,12 @@ class Ships_app():
                     #self.button_grid_player[i][j].configure(bg="yellow")
             
     def place_ships(self,x,y):
+        """
+        umieszczenie okrętu przez gracza
+        x,y - koordynaty wciśnietego przycisku
+        wartość zwracana - kod zakończenia metody
+        """
+        #wartość zwracana w przypadku poprawnego zakończenia działania metody
         return_val = 1
         if self.game_started == False:
             action_done = False
@@ -147,25 +206,42 @@ class Ships_app():
         return return_val
             
     def start_game(self):
+        """
+        funkcjonalność przycisku START
+        sprawdza czy gra nie została już rozpoczęta i czy wszystkie okręty zostały rozmieszczone
+        jeżeli tak tworzy obiekt enemy, przeciwnik rozmieszcza swoje okręty, zwraca 1
+        jeżeli nie zwraca -1
+        """
+        #sprawdź czy gra nie została już rozpoczęta
         if self.game_started == True:
             others.comm("Gra już rozpoczęta",self.tests)
-            return -1 
+            return -1
+        #sprawdź czy wszystkie okręty zostały rozmieszczone
         for i in range(0,4):
             if self.number_of_ships_list[i] != 0:
                 others.comm("Nie rozmieszczono wszystkich okrętów",self.tests)
                 return -1
+        #stwórz obiekt enemy
         self.enemy = ai.Enemy(self.button_grid_player,self.button_grid_enemy,self.taken_tiles)
+        #przeciwnik rozmieszcza swoje okręty
         self.enemy.enemy_ship_placement()
         self.number_of_ships_list = self.enemy.number_of_ships_list
         self.update_labels()
         self.game_started = True
         self.destroyed = 0
+        #decyzja o tym czy grę rozpoczyna gracz czy komputer
         self.who_start = others.get_random(9)
         if self.who_start <= 5:
             self.enemy.enemy_attack()
         
             
     def reset_game(self):
+        """
+        funkcjonalnośc przycisku RESET
+        czyści zawartość wszystkich kluczowych dla gry zbiorów
+        ustawia wartości zmiennych na domyślne
+        zmienia kolor wszystkich pól na domyślny
+        """
         self.possible_tiles.clear()
         self.taken_tiles.clear()
         self.banned_tiles.clear()
@@ -181,6 +257,9 @@ class Ships_app():
         self.skip = False
         
     def player_attack(self,x,y):
+        """
+        strzał w pole przeciwnika
+        """
         return_val = 1
         if self.game_started == True:
             if self.button_grid_enemy[x][y] not in self.fired_at:
@@ -200,9 +279,14 @@ class Ships_app():
         return return_val
          
     def attack_enemy(self,x,y):
+        """
+        metoda odpowiedzialna za ustawienie tur (atak gracza, atak przeciwnika)
+        x,y - koordynaty pola przeciwnika w które strzela gracz
+        wartosc zwracana - kod zakończenia metody
+        """
         return_val = 1
         if self.game_started == True:
-            self.player_attack(x,y)
+            return_val = self.player_attack(x,y)
             if self.destroyed < 20 and self.skip == False:
                 self.enemy.enemy_attack()
                 self.number_of_ships_list = self.enemy.number_of_ships_list
