@@ -29,7 +29,7 @@ class Ships_app():
         self.game_started = False
         #zmienna decydująca czy grę rozpoczyna gracz czy komputer
         self.who_start = others.get_random(9)
-        #ilość statków przeciwnika zniszzconych przez gracza
+        #ilość statków przeciwnika zniszconych przez gracza
         self.destroyed = 0
         #pominięcie tury przeciwnika (gdy gracz oddał strzał w niedozwolone miejsce)
         self.skip = False
