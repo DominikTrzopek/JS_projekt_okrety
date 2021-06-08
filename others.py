@@ -3,7 +3,7 @@ import random
 
 def make_set(x,y,buttons,ship_list,banned,player=True):
     """
-    tworzy zbiór składający się z pól na którch może zostać umieszczony okręt
+    tworzy zbiór składający się z pól na których może zostać umieszczony okręt
     x,y - koordynaty pola
     ship_list - lista zawierająca informację o okrętach pozostałych do rozmieszczenia
     banned - zbiór niedozwolonych pól
@@ -40,7 +40,7 @@ def get_random(max):
 
 def comm(text,tests):
     """
-    wyświetla komunikach o błędzie
+    wyświetla komunikaty o błędzie
     """
     if tests == False:
         messagebox.showerror("Okrety", text)
