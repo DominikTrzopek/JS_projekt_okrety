@@ -7,6 +7,10 @@ from tkinter import *
 class TestApp(TestCase):
     #1
     def test_wrong_ship_placement_diagonal(self):
+        """
+        testuje czy próba umieszczenia okrętu po 
+        przekątnej zakończy się niepowodzeniem
+        """
         #given
         root = Tk()
         app = player.Ships_app(1,root,True)
@@ -21,6 +25,11 @@ class TestApp(TestCase):
         self.assertNotEqual(val,1)
     #1
     def test_wrong_ship_placement_tooclose(self):
+        """
+        testuje czy próba umieszczenia okrętu 
+        bezpośrednio stykającego się bokiem z innym okrętem
+        zakończy się niepowodzeniem
+        """
         #given
         root = Tk()
         app = player.Ships_app(1,root,True)
@@ -38,6 +47,9 @@ class TestApp(TestCase):
         self.assertNotEqual(val4,1)
     #3 
     def test_shoot_empty_tile(self):
+        """
+        testuje czy prawidłowe oddanie strzału zakończy się powodzeniem
+        """
         #given
         root = Tk()
         app = player.Ships_app(1,root,True)
@@ -49,6 +61,10 @@ class TestApp(TestCase):
         self.assertEqual(val,1)
     #4
     def test_shoot_enemy_ship(self):
+        """
+        testuje czy oddanie strzału w okręt przeciwnika zakończy się 
+        wykryciem zniszczenia tego okrętu
+        """
         #given
         root = Tk()
         app = player.Ships_app(1,root,True)
@@ -64,6 +80,10 @@ class TestApp(TestCase):
         self.assertEqual(val,2)
     #5
     def test_shoot_own_ship(self):
+        """
+        testuje czy próba oddania strzału we własny okręt zakończy się 
+        niepowodzeniem
+        """
         #given
         root = Tk()
         app = player.Ships_app(1,root,True)
@@ -76,6 +96,10 @@ class TestApp(TestCase):
         self.assertEqual(val,-2)
     #6          
     def test_shoot_same_tile(self):
+        """
+        testuje czy próba ponownego strzelenia w puste pole zakończy się 
+        niepowodzeniem
+        """
         #given
         root = Tk()
         app = player.Ships_app(1,root,True)
@@ -90,6 +114,10 @@ class TestApp(TestCase):
         self.assertEqual(val,-1)
     #7 
     def test_shoot_enemy_again(self):
+        """
+        testuje czy próba ponownego strzelenia w okręt przeciwnika 
+        zakończy się niepowodzeniem
+        """
         #given
         root = Tk()
         app = player.Ships_app(1,root,True)
@@ -106,6 +134,11 @@ class TestApp(TestCase):
         self.assertEqual(val,-1)       
     #8 
     def test_place_and_reset(self):
+        """
+        testuje czy przycisk reset prawidłowo czyści zbiór pól na których 
+        gracz umieścił okręt,(oddanie strzału, reset gry, oddanie 
+        strzału w to samo pole, oczekiwane powodzenie)
+        """
         #given
         root = Tk()
         app = player.Ships_app(1,root,True)
@@ -124,6 +157,10 @@ class TestApp(TestCase):
         self.assertEqual(val2,1)
     #9
     def test_shoot_and_reset(self):
+        """
+        testuje czy przycisk reset prawidłowo czyści zbiór pól na których 
+        przeciwnik umieścił okręt, oczekiwane powodzenie
+        """
         #given
         root = Tk()
         app = player.Ships_app(1,root,True)
@@ -146,6 +183,10 @@ class TestApp(TestCase):
         self.assertEqual(val2,1)
     #11
     def test_shoot_before_placement(self):
+        """
+        testuje próbę oddania strzału przed rozmieszczeniem 
+        wszystkich okrętów przez gracza, oczekiwane niepowodzenie
+        """
         #given
         root = Tk()
         app = player.Ships_app(1,root,True)
