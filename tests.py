@@ -5,7 +5,7 @@ import ai
 from tkinter import *
 
 class TestApp(TestCase):
-    #1
+
     def test_wrong_ship_placement_diagonal(self):
         """
         testuje czy próba umieszczenia okrętu po 
@@ -23,7 +23,7 @@ class TestApp(TestCase):
         val = app.place_ships(x2,y2)
         #then
         self.assertNotEqual(val,1)
-    #1
+
     def test_wrong_ship_placement_tooclose(self):
         """
         testuje czy próba umieszczenia okrętu 
@@ -45,7 +45,7 @@ class TestApp(TestCase):
         #then
         self.assertNotEqual(val3,1)
         self.assertNotEqual(val4,1)
-    #3 
+
     def test_shoot_empty_tile(self):
         """
         testuje czy prawidłowe oddanie strzału zakończy się powodzeniem
@@ -59,7 +59,7 @@ class TestApp(TestCase):
         val = app.player_attack(x,y)
         #then
         self.assertEqual(val,1)
-    #4
+
     def test_shoot_enemy_ship(self):
         """
         testuje czy oddanie strzału w okręt przeciwnika zakończy się 
@@ -78,7 +78,7 @@ class TestApp(TestCase):
         val = app.player_attack(x,y)
         #then
         self.assertEqual(val,2)
-    #5
+
     def test_shoot_own_ship(self):
         """
         testuje czy próba oddania strzału we własny okręt zakończy się 
@@ -94,7 +94,7 @@ class TestApp(TestCase):
         val = app.place_ships(x,y)
         #then
         self.assertEqual(val,-2)
-    #6          
+        
     def test_shoot_same_tile(self):
         """
         testuje czy próba ponownego strzelenia w puste pole zakończy się 
@@ -112,7 +112,7 @@ class TestApp(TestCase):
         val = app.player_attack(x,y)
         #then
         self.assertEqual(val,-1)
-    #7 
+
     def test_shoot_enemy_again(self):
         """
         testuje czy próba ponownego strzelenia w okręt przeciwnika 
@@ -132,7 +132,7 @@ class TestApp(TestCase):
         val = app.player_attack(x,y)
         #then
         self.assertEqual(val,-1)       
-    #8 
+
     def test_place_and_reset(self):
         """
         testuje czy przycisk reset prawidłowo czyści zbiór pól na których 
@@ -155,7 +155,7 @@ class TestApp(TestCase):
         #then
         self.assertEqual(val1,1)
         self.assertEqual(val2,1)
-    #9
+
     def test_shoot_and_reset(self):
         """
         testuje czy przycisk reset prawidłowo czyści zbiór pól na których 
@@ -181,7 +181,7 @@ class TestApp(TestCase):
         #then
         self.assertEqual(val1,1)
         self.assertEqual(val2,1)
-    #11
+
     def test_shoot_before_placement(self):
         """
         testuje próbę oddania strzału przed rozmieszczeniem 
