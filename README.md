@@ -34,4 +34,4 @@ przeciwnik komputerowy losowo rozmieszcza swoje okręty.
 9.	Poprawne rozmieszczenie wszystkich okrętów, oddanie kilku strzałów, rozpoczęcie nowej gry, ponowne poprawne rozmieszczenie okrętów, oddanie strzałów w te same pola.
 10.	Wygranie gry (np. Przez pokazanie okrętów przeciwnika). Rozpoczęcie nowej gry bez ponownego uruchamiania programu.
 11.	Przegranie gry (np. Przez aktywację super-instynktu gracza komputera).
-Rozpoczęcie nowej gry bez ponownego uruchamiania programu.
+
