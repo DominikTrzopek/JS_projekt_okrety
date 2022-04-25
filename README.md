@@ -35,3 +35,8 @@ przeciwnik komputerowy losowo rozmieszcza swoje okręty.
 10.	Wygranie gry (np. Przez pokazanie okrętów przeciwnika). Rozpoczęcie nowej gry bez ponownego uruchamiania programu.
 11.	Przegranie gry (np. Przez aktywację super-instynktu gracza komputera).
 
+
+![Animation10](https://user-images.githubusercontent.com/79580449/165056490-e35a8212-d154-4c63-ba17-baf4a86e324c.gif)
+![Animation112](https://user-images.githubusercontent.com/79580449/165056492-16c83d11-8667-4523-98f0-1f635b5d55a6.gif)
+
+
